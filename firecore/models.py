@@ -1,6 +1,29 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 # Create your models here.
+
+
+class PlayerShop(models.Model):
+    shop_type_choices = [
+        ("FOOD", "Tenda de Comida"),
+        ("BUFF", "Buffs de Pardoner"),
+        ("WEPBUFF", "Buffs para Arma"),
+        ("ENCHANT", "Enchants Peito e Calça"),
+        ("AWAK", "Awakening"),
+        ("ROAST", "Limpa Gemas"),
+        ("SEX", "Troca de Sexo"),
+        ("REPLEATHER", "Repair de Leather"),
+        ("REPCLOTH", "Repair de Cloth"),
+        ("REPPLATE", "Repair de Plate"),
+        ("REPAIR", "Repair sem Arts")
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    shop_name = models.CharField(max_length=100)
+    shop_type = models.CharField(max_length=100, choices=shop_type_choices)
+    location = models.CharField(max_length=100)
+
 class ClassTree(models.Model):
     name = models.CharField(max_length=100)
 

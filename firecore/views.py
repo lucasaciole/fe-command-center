@@ -7,7 +7,7 @@ from .forms import CharacterForm
 
 
 # Create your views here.
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
 class CharacterListView(LoginRequiredMixin, ListView):
