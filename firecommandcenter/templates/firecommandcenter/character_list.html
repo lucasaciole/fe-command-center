@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %}Human Resources Module{% endblock %}
+{% block title %}Fire Command Center{% endblock %}
 
 {% block content %}
-  <h2>Human Resources Module » People Management</h2>
+  {% if user.is_authenticated %}
+    <h2>Lista de Personagens de {{ user.username }}</h2>
+  {% endif %}
 
   <p>
-    <a href="{% url 'character_add' %}">Add Character</a>
+    <a href="{% url 'character_add' %}">Novo Personagem</a>
   </p>
 
   <table border="1">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>1st Class</th>
-        <th>2nd Class</th>
-        <th>3rd Class</th>
+        <th>Nome</th>
+        <th>1ª Classe</th>
+        <th>2ª Classe</th>
+        <th>3ª Classe</th>
+        <th>#</th>
       </tr>
     </thead>
     <tbody>
@@ -25,10 +28,13 @@
           <td>{{ character.first_class }}</td>
           <td>{{ character.second_class }}</td>
           <td>{{ character.third_class }}</td>
+          {% if user.is_authenticated %}
+            <td><a href="{% url 'character_delete' character.pk %}">Remover</a></td>
+          {% endif %}
         </tr>
       {% empty %}
         <tr>
-          <td colspan="4">No character in the database. <a href="{% url 'character_add' %}">Add the first character</a>.</td>
+          <td colspan="5">Nenhum personagem encontrado. <a href="{% url 'character_add' %}">Adicione o primeiro</a>.</td>
         </tr>
       {% endfor %}
     </tbody>

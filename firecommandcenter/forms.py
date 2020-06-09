@@ -5,10 +5,15 @@ from .models import Character, Class
 class CharacterForm(forms.ModelForm):
     class Meta:
         model = Character
-        fields = ('user', 'name', 'class_tree', 'first_class', 'second_class', 'third_class', 'build_type')
+        widgets = {'user': forms.HiddenInput()}
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        self.user = kwargs.pop('user')
+        super(CharacterForm, self).__init__(*args, **kwargs)
+
+        self.fields['user'].initial = self.user.id
+
         self.fields['first_class'].queryset = Class.objects.none()
         self.fields['second_class'].queryset = Class.objects.none()
         self.fields['third_class'].queryset = Class.objects.none()

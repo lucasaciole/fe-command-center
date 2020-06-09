@@ -20,6 +20,8 @@ class Class(models.Model):
 class Character(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_gtw_char = models.BooleanField(default=True)
+    is_boruta_char = models.BooleanField(default=True)
     class_tree = models.ForeignKey(ClassTree, on_delete=models.SET_NULL, null=True, related_name='+')
     first_class = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, related_name='+')
     second_class = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, related_name='+')
