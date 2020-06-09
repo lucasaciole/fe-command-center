@@ -1,9 +1,12 @@
 from django.db import models
+from django.utils import timezone
+from django.conf import settings
+
 
 # Create your models here.
 class Event(models.Model):
     event_name = models.CharField(max_length=100)
-    event_date = models.DateTimeField(default=timezone.now())
+    event_date = models.DateTimeField(default=timezone.now)
 
 class ShopPoints(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -17,3 +20,4 @@ class ShopPointsHistory(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
 class ShopItem(models.Model):
+	pass

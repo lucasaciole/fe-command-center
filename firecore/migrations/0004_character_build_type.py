@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('firecommandcenter', '0003_auto_20200608_1335'),
+        ('firecore', '0003_auto_20200608_1335'),
     ]
 
     operations = [

@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('class_tree', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='firecommandcenter.ClassTree')),
+                ('class_tree', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='firecore.ClassTree')),
             ],
         ),
         migrations.CreateModel(
@@ -32,10 +32,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('class_tree', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecommandcenter.ClassTree')),
-                ('first_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecommandcenter.Class')),
-                ('second_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecommandcenter.Class')),
-                ('thrid_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecommandcenter.Class')),
+                ('class_tree', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecore.ClassTree')),
+                ('first_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecore.Class')),
+                ('second_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecore.Class')),
+                ('thrid_class', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='firecore.Class')),
             ],
         ),
     ]

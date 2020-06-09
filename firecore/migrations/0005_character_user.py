@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('firecommandcenter', '0004_character_build_type'),
+        ('firecore', '0004_character_build_type'),
     ]
 
     operations = [

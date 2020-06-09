@@ -44,4 +44,4 @@ class CharacterDeleteView(LoginRequiredMixin, DeleteView):
 def load_classes(request):
     tree_id = request.GET.get('class_tree')
     classes = Class.objects.filter(class_tree_id=tree_id).order_by('name')
-    return render(request, 'firecommandcenter/classes_dropdown_list_options.html', {'classes': classes})
+    return render(request, 'firecore/classes_dropdown_list_options.html', {'classes': classes})
