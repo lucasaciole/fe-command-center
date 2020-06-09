@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h2>Person Form</h2>
+
+  <form method="post" id="characterForm" data-classes-url="{% url 'ajax_load_classes' %}" novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+    <a href="{% url 'character_changelist' %}">Nevermind</a>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_class_tree").change(function () {
+      var url = $("#characterForm").attr("data-classes-url");
+      var classTreeId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'class_tree': classTreeId
+        },
+        success: function (data) {
+          $("#id_first_class").html(data);
+          $("#id_second_class").html(data);
+          $("#id_third_class").html(data);
+        }
+      });
+
+    });
+  </script>
+
+{% endblock %}
