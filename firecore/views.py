@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from .models import Class, ClassTree, Character
-from .forms import CharacterForm
+from .models import Class, ClassTree, Character, PlayerShop
+from .forms import CharacterForm, PlayerShopForm
 
 
 # Create your views here.
@@ -40,6 +40,37 @@ class CharacterUpdateView(LoginRequiredMixin, UpdateView):
 class CharacterDeleteView(LoginRequiredMixin, DeleteView):
     model = Character
     success_url = reverse_lazy('character_changelist')
+
+class PlayerShopListView(LoginRequiredMixin, ListView):
+    model = PlayerShop
+    context_object_name = 'shops'
+
+    def get_queryset(self):
+        return PlayerShop.objects.filter(user_id=self.request.user.id).order_by('shop_name')
+
+class PlayerShopCreateView(LoginRequiredMixin, CreateView):
+    model = PlayerShop
+    form_class = PlayerShopForm
+    success_url = reverse_lazy('playershop_list')
+
+    def get_form_kwargs(self):
+        kwargs = super(PlayerShopCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+class PlayerShopUpdateView(LoginRequiredMixin, UpdateView):
+    model = PlayerShop
+    form_class = PlayerShopForm
+    success_url = reverse_lazy('playershop_list')
+
+    def get_form_kwargs(self):
+        kwargs = super(PlayerShopUpdateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+class PlayerShopDeleteView(LoginRequiredMixin, DeleteView):
+    model = PlayerShop
+    success_url = reverse_lazy('playershop_list')
 
 def load_classes(request):
     tree_id = request.GET.get('class_tree')

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Fire Command Center{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <h2>Lista de Lojas de {{ user.username }}</h2>
+  {% endif %}
+
+  <p>
+    <a href="{% url 'playershop_add' %}">Nova Loja</a>
+  </p>
+      <div class="row">
+        {% for shop in shops %}
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">
+                <h6>{{ shop.shop_name }}</h6>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Dono/a: {{ shop.user.username }}</li>
+                <li class="list-group-item">Tipo: {{ shop.shop_type }}</li>
+                <li class="list-group-item">Local: {{ shop.location }}</li>
+              </ul>
+              <div class="card-body">
+                <a href="{% url 'playershop_change' shop.pk %}" class="card-link">Editar</a>
+                <a href="{% url 'playershop_delete' shop.pk %}" class="card-link">Remover</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <tr>
+            <td colspan="5">Nenhum personagem encontrado. <a href="{% url 'playershop_add' %}">Adicione o primeiro</a>.</td>
+          </tr>
+        {% endfor %}
+      </div>
+
+{% endblock %}

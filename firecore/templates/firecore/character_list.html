@@ -10,34 +10,29 @@
   <p>
     <a href="{% url 'character_add' %}">Novo Personagem</a>
   </p>
-
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>1ª Classe</th>
-        <th>2ª Classe</th>
-        <th>3ª Classe</th>
-        <th>#</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for character in characters %}
-        <tr>
-          <td><a href="{% url 'character_change' character.pk %}">{{ character.name }}</a></td>
-          <td>{{ character.first_class }}</td>
-          <td>{{ character.second_class }}</td>
-          <td>{{ character.third_class }}</td>
-          {% if user.is_authenticated %}
-            <td><a href="{% url 'character_delete' character.pk %}">Remover</a></td>
-          {% endif %}
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="5">Nenhum personagem encontrado. <a href="{% url 'character_add' %}">Adicione o primeiro</a>.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      <div class="row">
+        {% for character in characters %}
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">
+                <h6>{{ character.name }}</h6>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ character.first_class }}</li>
+                <li class="list-group-item">{{ character.second_class }}</li>
+                <li class="list-group-item">{{ character.third_class }}</li>
+              </ul>
+              <div class="card-body">
+                <a href="{% url 'character_change' character.pk %}" class="card-link">Editar</a>
+                <a href="{% url 'character_delete' character.pk %}" class="card-link">Remover</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <tr>
+            <td colspan="5">Nenhum personagem encontrado. <a href="{% url 'character_add' %}">Adicione o primeiro</a>.</td>
+          </tr>
+        {% endfor %}
+      </div>
 
 {% endblock %}

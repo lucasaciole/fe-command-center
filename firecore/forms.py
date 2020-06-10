@@ -1,5 +1,17 @@
 from django import forms
-from .models import Character, Class
+from .models import Character, Class, PlayerShop
+
+class PlayerShopForm(forms.ModelForm):
+    class Meta:
+        model = PlayerShop
+        widgets = {'user': forms.HiddenInput()}
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(PlayerShopForm, self).__init__(*args, **kwargs)
+
+        self.fields['user'].initial = self.user.id
 
 
 class CharacterForm(forms.ModelForm):
