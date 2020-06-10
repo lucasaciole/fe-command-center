@@ -1,16 +1,86 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-  <h2>Person Form</h2>
-
+  <h2>Novo Personagem</h2>
+  <hr/>
+  {% if form.errors %}
+    {% for error, error_field in form.errors.items%}
+      <h6> Erro em {{ error_field }} </h6>
+      <p>{{ error }}</p>
+    {% endfor %}
+  {% endif %}
   <form method="post" id="characterForm" data-classes-url="{% url 'ajax_load_classes' %}" novalidate>
     {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
-    <button type="submit">Save</button>
-    <a href="{% url 'character_changelist' %}">Nevermind</a>
+    <input type="hidden" name="user" value="{{form.user.initial}}" id="id_user" />
+    <div class="form-group row">
+      <label for="id_name" class="col-sm-2 col-form-label">Nome</label>
+      <div class="col-sm-10">
+        <input type="text" name="name" autofocus="" autocapitalize="none" autocomplete="name" maxlength="150" required="" id="id_name" class='form-control'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_is_gtw_char" class="col-sm-4 col-form-label">Usaria em GTW?</label>
+      <div class="col-sm-2">
+        <input type="checkbox" name="is_gtw_char" id="id_is_gtw_char" checked="" data-toggle="toggle">
+      </div>
+      <label for="id_is_boruta_char" class="col-sm-4 col-form-label">Usaria em Boruta?</label>
+      <div class="col-sm-2">
+        <input type="checkbox" name="is_boruta_char" id="id_is_boruta_char" checked="" data-toggle="toggle">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_class_tree" class="col-sm-3 col-form-label">Profissão</label>
+      <div class="col-sm-9">
+        <select name="class_tree" required="" id="id_class_tree" class="form-control">
+          {% for x, y in form.fields.class_tree.choices %}
+            <option value="{{ x }}" {% if form.fields.class_tree.value == x %} selected {%endif%} >
+              {{y}}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_first_class" class="col-sm-3 col-form-label">Primeira Classe</label>
+      <div class="col-sm-9">
+        <select name="first_class" required="" id="id_first_class" class="form-control">
+          <option value="" selected="">---------</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_second_class" class="col-sm-3 col-form-label">Segunda Classe</label>
+      <div class="col-sm-9">
+        <select name="second_class" required="" id="id_second_class" class="form-control">
+          <option value="" selected="">---------</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_third_class" class="col-sm-3 col-form-label">Terceira Classe</label>
+      <div class="col-sm-9">
+        <select name="third_class" required="" id="id_third_class" class="form-control">
+          <option value="" selected="">---------</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_build_type" class="col-sm-3 col-form-label">Tipo de Build</label>
+      <div class="col-sm-9">
+        <select name="build_type" required="" id="id_build_type" class="form-control">
+          {% for x, y in form.fields.build_type.choices %}
+            <option value="{{ x }}" {% if form.fields.build_type.value == x %} selected {%endif%} >
+              {{y}}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-secondary" href="{% url 'character_changelist' %}">Voltar</a>
   </form>
   <script>
     $("#id_class_tree").change(function () {
@@ -30,6 +100,12 @@
       });
 
     });
+    $(function() {
+      $('#id_is_gtw_char').bootstrapToggle({
+        on: 'Sim',
+        off: 'Não'
+      });
+    })
   </script>
 
 {% endblock %}

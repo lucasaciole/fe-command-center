@@ -5,13 +5,12 @@
 {% block content %}
 
   {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <p>Usuário e/ou senha inválidos. Tente novamente.</p>
   {% endif %}
 
   {% if next %}
     {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
+      <p>Você não tem permissão para ver essa página.</p>
     {% else %}
       <p>Por favor realize o login para continuar.</p>
     {% endif %}
