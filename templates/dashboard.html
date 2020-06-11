@@ -3,5 +3,7 @@
 {% block title %}Fire Command Center{% endblock %}
 
 {% block content %}
+
+<h1>Bem-vindo, {{user.username}}!</h1>
 <a href="{% url 'character_changelist' %}"> Meus personagens</a>
 {% endblock %}

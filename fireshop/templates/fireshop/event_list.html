@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Fire Command Center{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <h2>Lista de Personagens de {{ user.username }}</h2>
+  {% endif %}
+
+  <p>
+    {% if user.is_staff %}
+      <a href="{% url 'character_add' %}">Novo Evento</a>
+    {% endif %}
+  </p>
+      <div class="row">
+        {% for event in events %}
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">
+                <h6>{{ event.event_name }}</h6>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Data: {{ event.event_date }}</li>
+              </ul>
+              <div class="card-body">
+                <a href="{% url 'event_list' %}" class="card-link">Vou</a>
+                <a href="{% url 'event_list' %}" class="card-link">Talvez</a>
+                <a href="{% url 'event_list' %}" class="card-link">Não Vou</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <tr>
+            <td colspan="5">Nenhum personagem encontrado. <a href="{% url 'character_add' %}">Adicione o primeiro</a>.</td>
+          </tr>
+        {% endfor %}
+      </div>
+
+{% endblock %}

@@ -7,17 +7,59 @@ from django.conf import settings
 class Event(models.Model):
     event_name = models.CharField(max_length=100)
     event_date = models.DateTimeField(default=timezone.now)
+    has_party_planning = models.BooleanField(default=True)
 
-class ShopPoints(models.Model):
+    def __str__(self):
+        return self.event_name
+
+class EventAttendance(models.Model):
+    attendance_type_choices = [
+        ("Y", "Sim"),
+        ("M", "Talvez"),
+        ("N", "Não"),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendance_type = models.CharField(max_length=100, choices=attendance_type_choices)
+
+
+class EventAttendanceCategory(models.Model):
+    name = models.CharField(max_length=100)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    points_ammount = models.IntegerField()
+
+    def __str__(self):
+        return "{}: {}".format(self.event.event_name, self.name)
+
+    class Meta:
+        verbose_name_plural = "Event Attendance Categories"
+
+class EventAttendanceConfirmation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendance_category = models.ForeignKey(EventAttendanceCategory, on_delete=models.CASCADE)
+
+class PlayerPoints(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ammount = models.IntegerField()
     last_updated_date = models.DateTimeField(auto_now=True)
 
-class ShopPointsHistory(models.Model):
+class PlayerPointsHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    ammount = models.IntegerField()
+    event_attendance_category = models.ForeignKey(EventAttendanceCategory, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
 
 class ShopItem(models.Model):
-	pass
+    SHOP_ITEM_IMAGE_FOLDER = 'shop_items/'
+
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to=SHOP_ITEM_IMAGE_FOLDER)
+    points_ammount = models.IntegerField()
+
+class ShopItemRedeem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    shop_item = models.ForeignKey(ShopItem, on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    additional_notes = models.CharField(max_length=100)

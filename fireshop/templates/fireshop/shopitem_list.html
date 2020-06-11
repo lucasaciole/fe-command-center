@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Fire Command Center{% endblock %}
+
+{% block content %}
+  <p>
+    <a href="{% url 'shop_item_create' %}">Novo Item da Loja</a>
+  </p>
+      <div class="row">
+        {% for item in shop_items %}
+          <div class="col-sm-4">
+            <div class="card">
+              <img class="card-img-top" src="{{ item.image.url }}" alt="{{ item.name }}">
+              <div class="card-header">
+                <h6>
+                  <a href="{% url 'shop_item_update' item.pk %}">
+                    {{ item.name }}
+                  </a>
+                </h6>
+              </div>
+              <div class="card-body">
+                <p> {{ item.description }}</p>
+                <a href="{% url 'shop_item_redeem' item.pk %}">Pedir</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+{% endblock %}
