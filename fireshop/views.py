@@ -33,3 +33,6 @@ class ShopItemUpdateView(LoginRequiredMixin, UpdateView):
 class ShopItemRedeemView(LoginRequiredMixin, CreateView):
 	model = ShopItemRedeem
 	success_url = reverse_lazy('shop_item_list')
+
+class PartyPlanningView(LoginRequiredMixin, TemplateView):
+	template_name = 'fireshop/party_planning.html'

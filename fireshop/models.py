@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-
+from firecore.models import Character
 
 # Create your models here.
 class Event(models.Model):
@@ -63,3 +63,12 @@ class ShopItemRedeem(models.Model):
     shop_item = models.ForeignKey(ShopItem, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     additional_notes = models.CharField(max_length=100)
+
+class EventParty(models.Model):
+    event =  models.ForeignKey(Event, on_delete=models.CASCADE)
+    party_number = models.IntegerField()
+    first_character = models.ForeignKey(Character, on_delete=models.CASCADE, blank=True, related_name='+')
+    second_character = models.ForeignKey(Character, on_delete=models.CASCADE, blank=True, related_name='+')
+    third_character = models.ForeignKey(Character, on_delete=models.CASCADE, blank=True, related_name='+')
+    fourth_character = models.ForeignKey(Character, on_delete=models.CASCADE, blank=True, related_name='+')
+    fifth_character = models.ForeignKey(Character, on_delete=models.CASCADE, blank=True, related_name='+')

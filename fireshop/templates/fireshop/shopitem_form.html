@@ -39,8 +39,8 @@
     <div class="form-group row">
       <label for="id_image" class="col-sm-2 col-form-label">Imagem</label>
       <div class="col-sm-10">
-        {% if form.image.url %}
-          Atual: <a href="{{ form.image.url }}"></a>
+        {% if form.image.value %}
+          Atual: <a href="/media/{{ form.image.value }}">{{ form.image.value }}</a>
         {% endif %}
         <input type="file" name="image" accept="image/*" required="" id="id_image"/>
       </div>
@@ -48,7 +48,11 @@
     <div class="form-group row">
       <label for="id_points_ammount" class="col-sm-2 col-form-label">Pontos necessários</label>
       <div class="col-sm-10">
-        <input type="number" name="points_ammount" id="id_points_ammount">
+        <input type="number" name="points_ammount" id="id_points_ammount"
+        {% if form.points_ammount.value %}
+          value="{{form.points_ammount.value}}"
+        {% endif %}
+        >
       </div>
     </div>
     <button class="btn btn-primary" type="submit">Salvar</button>

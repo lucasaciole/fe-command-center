@@ -1,0 +1,18 @@
+#partyPlanner .collapse, .collapsing {
+	margin-bottom: -21px;
+    margin-left: -21px;
+    margin-right: -21px;
+}
+
+#partyPlanner .collapse li, .collapsing li {
+	background: lightgrey;
+	border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+ul.empty-group {
+	padding: 10px;
+	background: lightgrey;
+}
