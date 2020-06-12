@@ -5,5 +5,7 @@
 {% block content %}
 
 <h1>Bem-vindo, {{user.username}}!</h1>
+<h5>Você possui {{ points }} pontos na loja. <a href="{% url 'shop_item_list' %}"> Use-os aqui!</a></h5>
+
 <a href="{% url 'character_changelist' %}"> Meus personagens</a>
 {% endblock %}

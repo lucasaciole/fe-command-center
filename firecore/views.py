@@ -10,6 +10,16 @@ from .forms import CharacterForm, PlayerShopForm
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        curr_player_points = self.request.user.playerpoints_set.first()
+        if curr_player_points is None:
+            context['points'] = 0
+        else:
+            context['points'] = curr_player_points.ammount
+        return context
+
+
 class CharacterListView(LoginRequiredMixin, ListView):
     model = Character
     context_object_name = 'characters'
