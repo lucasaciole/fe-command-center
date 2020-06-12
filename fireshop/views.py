@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from .models import Event, ShopItem, ShopItemRedeem
 
 # Create your views here.
@@ -36,3 +37,8 @@ class ShopItemRedeemView(LoginRequiredMixin, CreateView):
 
 class PartyPlanningView(LoginRequiredMixin, TemplateView):
 	template_name = 'fireshop/party_planning.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['users'] = User.objects.all()
+		return context

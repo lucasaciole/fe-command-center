@@ -57,4 +57,4 @@ class Character(models.Model):
         ])
 
     def __str__(self):
-        return "{self.user} {self.name}: {self.class_tree}/{self.first_class}/{self.second_class}/{self.third_class}".format(self = self)
+        return "{self.name}: {self.class_tree} | {self.first_class} | {self.second_class} | {self.third_class}".format(self = self)

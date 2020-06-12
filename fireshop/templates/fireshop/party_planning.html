@@ -7,203 +7,48 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/party_planning.css' %}">
   <script src="{% static 'js/party_planning.js' %}"></script>
   <script src="http://SortableJS.github.io/Sortable/Sortable.js"></script>
-  <h1> PTs para o Boruta</h1>
-  <div id="openParties">
-  </div>
-  <div class="row" id="partyPlanner">
-    <div class="col-sm-3">
-      <h6> PT #1 </h6>
-      <ul id="sortable" class="list-group">
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Maniaco - Crusader/Druid/Exo
-          <a class="float-right" data-toggle="collapse" href="#maniacoCharList" role="button" aria-expanded="false" aria-controls="maniacoCharList">
-             <span class="bi bi-caret-down-fill">
-               <img src="{% static 'icons/caret-down-fill.svg' %}">
-             </span>
-          </a>
-          <div class="collapse" id="maniacoCharList">
-            <ul class="list-group">
-              <li class="list-group-item">
-                Cruzado
-              </li>
-              <li class="list-group-item">
-                Padre
-              </li>
-            </ul>
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 2
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 3
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 4
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 5
-        </li>
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      <h6> PT #2 </h6>
-      <ul id="sortable2" class="list-group">
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 1
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 2
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 3
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 4
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 5
-        </li>
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      <h6> PT #3 </h6>
-      <ul id="sortable3" class="list-group">
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 1
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 2
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 3
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 4
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 5
-        </li>
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      <h6> PT #4 </h6>
-      <ul id="sortable4" class="list-group">
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 1
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 2
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 3
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 4
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 5
-        </li>
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      <h6> PT #5 </h6>
-      <ul id="sortable5" class="list-group">
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 1
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 2
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 3
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 4
-        </li>
-        <li class="list-group-item">
-          <span class="handle">
-            <img src="{% static 'icons/arrows-move.svg' %}">
-          </span>
-          Membro 5
-        </li>
-      </ul>
+  <h1 class='text-center'> PTs para o Boruta</h1>
+
+  <div class="row">
+    <div class="col-sm">
+      <button id="addParty" class="btn btn-primary float-right">Adicionar PT</button>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm">
-      <button id="addParty" class="btn btn-primary">Adicionar PT</button>
+    <div class="col-sm-10">
+      <div class="row" id="partyPlanner">
+      </div>
+      <div class="col-sm-4">
+      <h6> Lista de Players</h6>
+      <ul id="playerList" class="list-group">
+        {% for user in users %}
+          <li class="list-group-item">
+            <span class="handle">
+              <img src="{% static 'icons/arrows-move.svg' %}">
+            </span>
+            {{user.username}}
+            <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+             <span class="bi bi-caret-down-fill">
+               <img src="{% static 'icons/caret-down-fill.svg' %}">
+             </span>
+            </a>
+            <div class="collapse" id="{{ user.username }}CharList">
+              <ul class="list-group">
+                {% for character in user.character_set.all %}
+                <li class="list-group-item character">
+                  {{character}}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    </div>
+    <div class="col-sm-2">
+      <div id="openParties">
+      </div>
     </div>
   </div>
 {% endblock %}
