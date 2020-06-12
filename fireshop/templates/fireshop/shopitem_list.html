@@ -7,9 +7,11 @@
   <div class="text-center">
     <h1> Loja Fire </h1>
   </div>
-  <div class="text-right">
-    <a class="btn btn-primary" href="{% url 'shop_item_create' %}">Novo Item da Loja</a>
-  </div>
+  {% if user.is_staff %}
+    <div class="text-right">
+      <a class="btn btn-primary" href="{% url 'shop_item_create' %}">Novo Item da Loja</a>
+    </div>
+  {% endif %}
   <div class="row">
     {% for item in shop_items %}
       <div class="col-sm-3">
