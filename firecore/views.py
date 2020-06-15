@@ -12,11 +12,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        curr_player_points = self.request.user.playerpoints_set.first()
+        curr_player_points = self.request.user.shop_points
         if curr_player_points is None:
             context['points'] = 0
         else:
-            context['points'] = curr_player_points.ammount
+            context['points'] = curr_player_points.amount
         return context
 
 

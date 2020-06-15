@@ -12,6 +12,8 @@ class EventListView(LoginRequiredMixin, ListView):
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
+    fields = '__all__'
+    success_url = reverse_lazy('events_list')
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
     model = Event
