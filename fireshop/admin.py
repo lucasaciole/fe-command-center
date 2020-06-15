@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Event, EventAttendanceCategory, PlayerPoints, PlayerPointsHistory, ShopItem
+from . import models
 
-# Register your models here.
-admin.site.register(Event)
-admin.site.register(EventAttendanceCategory)
-admin.site.register(PlayerPoints)
-admin.site.register(PlayerPointsHistory)
-admin.site.register(ShopItem)
+# Register your models hmodels.ere.
+admin.site.register(models.Event)
+admin.site.register(models.EventAttendance)
+admin.site.register(models.EventAttendanceCategory)
+admin.site.register(models.PlayerPoints)
+admin.site.register(models.PlayerPointsHistory)
+admin.site.register(models.ShopItem)

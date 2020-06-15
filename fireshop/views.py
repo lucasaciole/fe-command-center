@@ -1,9 +1,10 @@
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, View
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Event, ShopItem, ShopItemRedeem
+from .models import Event, ShopItem, ShopItemRedeem, EventAttendance, AttendanceTypes
 from .forms import EventForm
 
 # Create your views here.
@@ -22,7 +23,15 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     form_class = EventForm
     success_url = reverse_lazy('event_list')
 
-# Create your views here.
+class EventAttendanceCreateView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        new_attendance = EventAttendance(user=request.user)
+        new_attendance.event = Event.objects.get(pk=kwargs['pk'])
+        new_attendance.attendance_type = AttendanceTypes[kwargs['typ'].upper()]
+        new_attendance.save()
+        return HttpResponse("DONE")
+
 class ShopListView(LoginRequiredMixin, ListView):
     model = ShopItem
     context_object_name = "shop_items"

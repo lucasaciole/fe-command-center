@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from firecore.models import Character
 from django.db.models import F
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Event(models.Model):
@@ -14,23 +15,26 @@ class Event(models.Model):
         return "{} {}".format(self.name,
                               self.date.date().strftime("%d/%m/%Y"))
 
+class AttendanceTypes(models.TextChoices):
+    GOING =  'going', _("Sim"),
+    MAYBE =  'maybe', _("Talvez"),
+    NOTGOING =  'notgoing', _("Não"),
+
 class EventAttendance(models.Model):
-    attendance_type_choices = [
-        ("Y", "Sim"),
-        ("M", "Talvez"),
-        ("N", "Não"),
-    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    attendance_type = models.CharField(max_length=100, choices=attendance_type_choices)
+    attendance_type = models.CharField(max_length=100, choices=AttendanceTypes.choices)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    confirmation_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return attendance_type
+        return "{}: {}".format(self.user.username, AttendanceTypes[self.attendance_type.upper()].label)
 
     def confirm(self, category):
-        point_history_entry = PlayerPointHistory(user=self.user,
-                              amount_points= category.points_amount)
-        point_history_entry.description = "{category}"
+        if self.confirmation_date is None:
+            point_history_entry = PlayerPointHistory(user=self.user,
+                                  amount_points= category.points_amount)
+            point_history_entry.description = "{category}"
 
 
 class EventAttendanceCategory(models.Model):
@@ -39,7 +43,7 @@ class EventAttendanceCategory(models.Model):
     points_amount = models.IntegerField()
 
     def __str__(self):
-        return "{}: {}".format(self.event.event_name, self.name)
+        return "{}: {}".format(self.event.name, self.name)
 
     class Meta:
         verbose_name_plural = "Event Attendance Categories"

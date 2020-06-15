@@ -26,9 +26,9 @@
 	        	</li>
               </ul>
               <div class="card-body">
-                <a href="{% url 'event_list' %}" class="card-link">Vou</a>
-                <a href="{% url 'event_list' %}" class="card-link">Talvez</a>
-                <a href="{% url 'event_list' %}" class="card-link">Não Vou</a>
+                <a href="{% url 'event_attendance_add' event.pk 'going' %}" class="card-link">Vou</a>
+                <a href="{% url 'event_attendance_add' event.pk 'maybe'  %}" class="card-link">Talvez</a>
+                <a href="{% url 'event_attendance_add' event.pk 'notgoing'  %}" class="card-link">Não Vou</a>
                 {% if event.has_party_planning and user.is_staff %}
                 	<a href="{% url 'event_list' %}" class="card-link">Planejar PTs</a>
                 {% endif %}
