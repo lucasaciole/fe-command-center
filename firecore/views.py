@@ -12,13 +12,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        curr_player_points = self.request.user.shop_points
-        if curr_player_points is None:
-            context['points'] = 0
+        if hasattr(self.request.user, 'shop_points'):
+            context['points'] = self.request.user.shop_points.amount
         else:
-            context['points'] = curr_player_points.amount
-        return context
+            context['points'] = 0
 
+        return context
 
 class CharacterListView(LoginRequiredMixin, ListView):
     model = Character
