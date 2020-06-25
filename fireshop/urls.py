@@ -13,7 +13,7 @@ urlpatterns = [
     path('events/<int:event>/attendance/<int:user>/<int:ac>',
         views.EventAttendanceConfirmationCreateView.as_view(), name='event_attendance_confirm'),
     path('events/<int:pk>/attendance/<str:typ>', views.EventAttendanceCreateView.as_view(), name='event_attendance_add'),
-    path('planner/', views.PartyPlanningView.as_view(), name='party_planner'),
+    path('events/<int:pk>/planner/', views.PartyPlanningView.as_view(), name='party_planner'),
     path('shop/', views.ShopListView.as_view(), name='shop_item_list'),
     path('shop/points/new', views.PlayerPointsCreateView.as_view(), name='player_points_create'),
     path('shop/<int:pk>/redeem', views.ShopItemRedeemView.as_view(), name='shop_item_redeem'),

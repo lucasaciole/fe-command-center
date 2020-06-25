@@ -46,12 +46,13 @@ class EventAttendanceConfirmationCreateView(LoginRequiredMixin, View):
         return redirect('event_list')
 
 
-class EventAttendanceListView(LoginRequiredMixin, TemplateView):
+class EventAttendanceListView(LoginRequiredMixin, DetailView):
+    model = Event
     template_name = 'fireshop/event_attendance_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        event = Event.objects.get(id=kwargs['pk'])
+        event = self.object
         context['event'] = event
         context['going'] = event.attendances.filter(attendance_type='going').only('user').order_by('creation_date')
         context['maybe'] = event.attendances.filter(attendance_type='maybe').only('user').order_by('creation_date')
@@ -151,10 +152,16 @@ class ShopItemRedeemView(LoginRequiredMixin, View):
         return redirect('shop_item_list')
 
 
-class PartyPlanningView(LoginRequiredMixin, TemplateView):
+class PartyPlanningView(LoginRequiredMixin, DetailView):
+    model = Event
     template_name = 'fireshop/party_planning.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.all()
+        event = self.object
+        context['event'] = event
+        context['going'] = event.attendances.filter(attendance_type='going').only('user').order_by('creation_date')
+        context['maybe'] = event.attendances.filter(attendance_type='maybe').only('user').order_by('creation_date')
+        context['notgoing'] = event.attendances.filter(attendance_type='notgoing').only('user').order_by('creation_date')
+        context['unanswered'] = User.objects.exclude(user_attendances__event_id=event.id)
         return context

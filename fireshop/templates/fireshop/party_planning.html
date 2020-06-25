@@ -18,33 +18,123 @@
     <div class="col-sm-10">
       <div class="row" id="partyPlanner">
       </div>
-      <div class="col-sm-4">
-      <h6> Lista de Players</h6>
-      <ul id="playerList" class="list-group">
-        {% for user in users %}
-          <li class="list-group-item">
-            <span class="handle">
-              <img src="{% static 'icons/arrows-move.svg' %}">
-            </span>
-            {{user.username}}
-            <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
-             <span class="bi bi-caret-down-fill">
-               <img src="{% static 'icons/caret-down-fill.svg' %}">
-             </span>
-            </a>
-            <div class="collapse" id="{{ user.username }}CharList">
-              <ul class="list-group">
-                {% for character in user.character_set.all %}
-                <li class="list-group-item character">
-                  {{character}}
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
+
+      <div class="row">
+        {% if going %}
+        <div class="col-sm-3">
+          <h6> Vou </h6>
+          <ul id="goingList" class="list-group">
+            {% for user in going %}
+              <li class="list-group-item">
+                <span class="handle">
+                  <img src="{% static 'icons/arrows-move.svg' %}">
+                </span>
+                {{user.user.username}}
+                <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+                 <span class="bi bi-caret-down-fill">
+                   <img src="{% static 'icons/caret-down-fill.svg' %}">
+                 </span>
+                </a>
+                <div class="collapse" id="{{ user.username }}CharList">
+                  <ul class="list-group">
+                    {% for character in user.user.character_set.all %}
+                    <li class="list-group-item character">
+                      {{character}}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        {% if maybe %}
+        <div class="col-sm-3">
+          <h6> Talvez </h6>
+          <ul id="maybeList" class="list-group">
+            {% for user in maybe %}
+              <li class="list-group-item">
+                <span class="handle">
+                  <img src="{% static 'icons/arrows-move.svg' %}">
+                </span>
+                {{user.user.username}}
+                <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+                 <span class="bi bi-caret-down-fill">
+                   <img src="{% static 'icons/caret-down-fill.svg' %}">
+                 </span>
+                </a>
+                <div class="collapse" id="{{ user.username }}CharList">
+                  <ul class="list-group">
+                    {% for character in user.user.character_set.all %}
+                    <li class="list-group-item character">
+                      {{character}}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        {% if notgoing %}
+        <div class="col-sm-3">
+          <h6> Não Vou </h6>
+          <ul id="notGoingList" class="list-group">
+            {% for user in notgoing %}
+              <li class="list-group-item">
+                <span class="handle">
+                  <img src="{% static 'icons/arrows-move.svg' %}">
+                </span>
+                {{user.user.username}}
+                <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+                 <span class="bi bi-caret-down-fill">
+                   <img src="{% static 'icons/caret-down-fill.svg' %}">
+                 </span>
+                </a>
+                <div class="collapse" id="{{ user.username }}CharList">
+                  <ul class="list-group">
+                    {% for character in user.user.character_set.all %}
+                    <li class="list-group-item character">
+                      {{character}}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <div class="col-sm-3">
+          <h6> Não responderam</h6>
+          <ul id="playerList" class="list-group">
+            {% for user in unanswered %}
+              <li class="list-group-item">
+                <span class="handle">
+                  <img src="{% static 'icons/arrows-move.svg' %}">
+                </span>
+                {{user.username}}
+                <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+                 <span class="bi bi-caret-down-fill">
+                   <img src="{% static 'icons/caret-down-fill.svg' %}">
+                 </span>
+                </a>
+                <div class="collapse" id="{{ user.username }}CharList">
+                  <ul class="list-group">
+                    {% for character in user.character_set.all %}
+                    <li class="list-group-item character">
+                      {{character}}
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="col-sm-2">
       <div id="openParties">

@@ -27,11 +27,22 @@ $( function() {
       });
     }
   };
-  Sortable.create(playerList, opts);
+  if (document.getElementById("playerList")) {
+    Sortable.create(playerList, opts);
+  }
+  if (document.getElementById("goingList")) {
+    Sortable.create(goingList, opts);
+  }
+  if (document.getElementById("maybeList")) {
+    Sortable.create(maybeList, opts);
+  }
+  if (document.getElementById("notGoingList")) {
+    Sortable.create(notGoingList, opts);
+  }
 
   $("#addParty").click(function(e){
     var row = $("#partyPlanner");
-    var col = $("<div class='col-sm-4'></div>")
+    var col = $("<div class='col-sm-3'></div>")
     row.append(col);
 
     var uheader = $("<h6>PT #"+ ++sortableCount + "</h6>");
