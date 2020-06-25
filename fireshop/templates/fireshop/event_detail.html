@@ -27,7 +27,7 @@
         <a class="btn btn-primary" href="{% url 'event_update' event.pk %}" type="submit">Editar evento</a>
         <a class="btn btn-primary" href="{% url 'event_attendance_list' event.pk %}" type="submit">Confirmar presenças</a>
         <a class="btn btn-primary" href="{% url 'event_attendance_category_add' event.pk %}" type="submit">Nova categoria de presença</a>
-        <button class="btn btn-primary" type="submit">Planejar PTs</button>
+        <a class="btn btn-primary" href="{% url 'party_planner' event.pk %}" type="submit">Planejar PTS</a>
       </div>
     </div>
     <hr />
