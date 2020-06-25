@@ -16,9 +16,9 @@ class Event(models.Model):
                               self.date.date().strftime("%d/%m/%Y"))
 
 class AttendanceTypes(models.TextChoices):
-    GOING =  'going', _("Sim"),
+    GOING =  'going', _("Vou"),
     MAYBE =  'maybe', _("Talvez"),
-    NOTGOING =  'notgoing', _("Não"),
+    NOTGOING =  'notgoing', _("Não Vou"),
 
 class EventAttendance(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_attendances')
@@ -29,6 +29,9 @@ class EventAttendance(models.Model):
 
     def __str__(self):
         return "{}: {}".format(self.user.username, AttendanceTypes[self.attendance_type.upper()].label)
+
+    def get_attendance_type_label(self):
+        return AttendanceTypes[self.attendance_type.upper()].label
 
     def confirm(self, category):
         if self.confirmation_date is None:

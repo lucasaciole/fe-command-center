@@ -9,6 +9,14 @@
     {% if user.is_staff %}
       <a href="{% url 'event_add' %}">Novo Evento</a>
     {% endif %}
+
+    {% if messages %}
+    <div class="row">
+      {% for message in messages %}
+        <span class="text-{{message.level_tag}}">{{ message }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
   </p>
       <div class="row">
         {% for event in events %}

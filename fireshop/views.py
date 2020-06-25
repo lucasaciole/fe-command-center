@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from .models import Event, ShopItem, ShopItemRedeem, EventAttendanceCategory, PlayerPoints
 from .models import EventAttendance, EventAttendanceConfirmation, AttendanceTypes
 from .forms import EventForm
-
+from django.contrib import messages
 
 # Create your views here.
 class EventListView(LoginRequiredMixin, ListView):
@@ -93,12 +93,27 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
 class EventAttendanceCreateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        new_attendance = EventAttendance(user=request.user)
-        new_attendance.event = Event.objects.get(pk=kwargs['pk'])
-        new_attendance.attendance_type = AttendanceTypes[kwargs['typ'].upper()]
-        new_attendance.save()
-        redirect
-        return HttpResponse("DONE")
+        event = Event.objects.get(pk=kwargs['pk'])
+        try:
+            ea = EventAttendance.objects.get(user=request.user, event=event)
+            if ea.attendance_type != kwargs['typ']:
+                old_attendance = AttendanceTypes[ea.attendance_type.upper()]
+                ea.attendance_type = AttendanceTypes[kwargs['typ'].upper()]
+                ea.save()
+                messages.success(request, 'Sua sinalização no "{}" foi atualizada de "{}" para "{}"!'.format(ea.event,
+                    old_attendance.label, ea.get_attendance_type_label()))
+            else:
+                messages.warning(request, 'Você já sinalizou "{}" para o evento "{}"'.format(
+                        ea.get_attendance_type_label(), ea.event
+                    ))
+            return redirect('event_list')
+        except EventAttendance.DoesNotExist:
+            new_attendance = EventAttendance(user=request.user)
+            new_attendance.event = event
+            new_attendance.attendance_type = AttendanceTypes[kwargs['typ'].upper()]
+            new_attendance.save()
+            messages.info(request, 'Obrigado por sinalizar "{}" para o evento "{}"!'.format(new_attendance.get_attendance_type_label(), new_attendance.event))
+            return redirect('event_list')
 
 class ShopListView(LoginRequiredMixin, ListView):
     model = ShopItem
