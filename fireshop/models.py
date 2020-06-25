@@ -21,8 +21,8 @@ class AttendanceTypes(models.TextChoices):
     NOTGOING =  'notgoing', _("Não"),
 
 class EventAttendance(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_attendances')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attendances')
     attendance_type = models.CharField(max_length=100, choices=AttendanceTypes.choices)
     creation_date = models.DateTimeField(auto_now_add=True)
     confirmation_date = models.DateTimeField(blank=True, null=True)
@@ -39,7 +39,7 @@ class EventAttendance(models.Model):
 
 class EventAttendanceCategory(models.Model):
     name = models.CharField(max_length=100)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attendance_categories')
     points_amount = models.IntegerField()
 
     def __str__(self):
@@ -66,6 +66,9 @@ class PlayerPoints(models.Model):
         self.amount = F('amount') + value
         self.save()
 
+    def __str__(self):
+        return "{}: {} ponto(s).".format(self.user.username, self.amount)
+
 class PlayerPointsHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
@@ -86,6 +89,8 @@ class PlayerPointsHistory(models.Model):
         except:
             self.delete()
 
+    def __str__(self):
+        return "{}: {}".format(self.user.username, self.description)
 
 class ShopItem(models.Model):
     SHOP_ITEM_IMAGE_FOLDER = 'shop_items/'

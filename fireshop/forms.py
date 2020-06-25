@@ -9,7 +9,3 @@ class EventForm(forms.ModelForm):
         widgets = {'date': DateTimePicker(options={
             'format': 'D/M/YYYY H:mm:ss'
             })}
-
-    def __init__(self, *args, **kwargs):
-        super(EventForm, self).__init__(*args, **kwargs)
-        print(self.fields['date'].widget)

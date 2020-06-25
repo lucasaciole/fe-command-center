@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Novo registro de pontos para membro</h2>
+  <hr/>
+
+  {% if form.errors %}
+    {% for error, error_field in form.errors.items%}
+      <h6> Erro em {{ error_field }} </h6>
+      <p>{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" id="playerPointsForm" novalidate>
+    {% csrf_token %}
+    <div class="form-group row">
+      <label for="id_name" class="col-sm-2 col-form-label">Nome</label>
+      <div class="col-sm-4">
+        <select name="user" required="" id="id_user" class="form-control">
+          {% for x, y in form.fields.user.choices %}
+            <option value="{{ x }}" {% if form.user.value == x %} selected {%endif%} >
+              {{y}}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="id_name" class="col-sm-2 col-form-label">Pontos</label>
+      <div class="col-sm-4">
+        <input type="number" name="amount" autofocus="" autocapitalize="none" autocomplete="amount" maxlength="150" required="" id="id_amount" class='form-control'
+        {% if form.amount.value %}
+          value="{{form.amount.value}}"
+        {% endif %}
+        >
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a class="btn btn-secondary" href="{% url 'shop_item_list' %}">Voltar</a>
+  </form>
+{% endblock %}

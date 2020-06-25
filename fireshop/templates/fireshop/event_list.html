@@ -16,7 +16,7 @@
             <div class="card">
               <div class="card-header">
                 {% if user.is_staff %}
-                  <h6><a href="{% url 'event_update' event.pk %}">{{ event.name }}</a></h6>
+                  <h6><a href="{% url 'event_detail' event.pk %}">{{ event.name }}</a></h6>
                 {% else %}
                   <h6>{{ event.name }}</h6>
                 {% endif %}
