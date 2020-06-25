@@ -103,6 +103,9 @@ class ShopItem(models.Model):
     image = models.ImageField(upload_to=SHOP_ITEM_IMAGE_FOLDER)
     points_cost = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
 class ShopItemRedeem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     shop_item = models.ForeignKey(ShopItem, on_delete=models.CASCADE)

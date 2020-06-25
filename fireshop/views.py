@@ -143,9 +143,13 @@ class ShopItemUpdateView(LoginRequiredMixin, UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('shop_item_list')
 
-class ShopItemRedeemView(LoginRequiredMixin, CreateView):
-    model = ShopItemRedeem
-    success_url = reverse_lazy('shop_item_list')
+class ShopItemRedeemView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        item = ShopItem.objects.get(pk=kwargs['pk'])
+        messages.info(request, 'Você requisitou "{}"'.format(item))
+        return redirect('shop_item_list')
+
 
 class PartyPlanningView(LoginRequiredMixin, TemplateView):
     template_name = 'fireshop/party_planning.html'
