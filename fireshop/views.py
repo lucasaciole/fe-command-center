@@ -5,9 +5,14 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .models import Event, ShopItem, ShopItemRedeem, EventAttendanceCategory, PlayerPoints
-from .models import EventAttendance, EventAttendanceConfirmation, AttendanceTypes
+from .models import EventAttendance, AttendanceTypes, EventAttendanceConfirmation, PlayerPointsHistory
 from .forms import EventForm
 from django.contrib import messages
+import logging
+import pdb
+import json
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 class EventListView(LoginRequiredMixin, ListView):
@@ -35,15 +40,45 @@ class EventPlannerView(LoginRequiredMixin, TemplateView):
         context['users'] = User.objects.all()
         return context
 
-class EventAttendanceConfirmationCreateView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        new_attendance = EventAttendanceConfirmation()
-        new_attendance.user = User.objects.get(pk=kwargs['user'])
-        new_attendance.event = Event.objects.get(pk=kwargs['event'])
-        new_attendance.attendance_category = EventAttendanceCategory.objects.get(pk=kwargs['ac'])
-        new_attendance.save()
+class EventAttendanceConfirmationView(LoginRequiredMixin, View):
 
-        return redirect('event_list')
+    def get(self, request, *args, **kwargs):
+        attendances = json.loads(request.GET['attendances'])
+        event_id = kwargs['event']
+        for member, category in attendances.items():
+            user = User.objects.get(pk=member)
+            event = Event.objects.get(pk=event_id)
+            try:
+                eac = EventAttendanceConfirmation.objects.get(user=user, event=event)
+                logger.error("ALREADY EXISTS")
+                #return HttpResponse("Presença de {} em {} já foi registrada.".format(user, event), status=200)
+            except EventAttendanceConfirmation.DoesNotExist:
+                eac = EventAttendanceConfirmation(user=user, event=event)
+                eac.attendance_category = event.attendance_categories.get(id=category)
+                eac.save()
+                logger.error("OK")
+                #return HttpResponse("Presença de {} em {} confirmada com sucesso.".format(user, event), status=200)
+            except Exception as error:
+                raise error
+        return HttpResponse("OK", status=200)
+
+class PlayerPointsHistoryListView(LoginRequiredMixin, ListView):
+    model = PlayerPointsHistory
+    template_name = 'fireshop/player_points_history_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if hasattr(self.request.user, 'shop_points'):
+            context['points'] = self.request.user.shop_points.amount
+        else:
+            context['points'] = 0
+
+        if not self.request.user.is_staff:
+            context['history'] = PlayerPointsHistory.objects.filter(user=self.request.user)
+        else:
+            context['history'] = PlayerPointsHistory.objects.all()
+        return context
 
 
 class EventAttendanceListView(LoginRequiredMixin, DetailView):
@@ -60,6 +95,7 @@ class EventAttendanceListView(LoginRequiredMixin, DetailView):
         context['unanswered'] = User.objects.exclude(user_attendances__event_id=event.id)
         context['attendance_categories'] = event.attendance_categories.all()
         context['colspan'] = 2 + context['attendance_categories'].count()
+        context['confirmed'] = event.attendance_confirmations.all()
         return context
 
 class EventAttendanceCategoryCreateView(LoginRequiredMixin, CreateView):

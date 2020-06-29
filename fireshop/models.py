@@ -33,13 +33,6 @@ class EventAttendance(models.Model):
     def get_attendance_type_label(self):
         return AttendanceTypes[self.attendance_type.upper()].label
 
-    def confirm(self, category):
-        if self.confirmation_date is None:
-            point_history_entry = PlayerPointHistory(user=self.user,
-                                  amount_points= category.points_amount)
-            point_history_entry.description = "{category}"
-
-
 class EventAttendanceCategory(models.Model):
     name = models.CharField(max_length=100)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attendance_categories')
@@ -53,9 +46,24 @@ class EventAttendanceCategory(models.Model):
 
 class EventAttendanceConfirmation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="attendance_confirmations")
+    confirmation_date = models.DateTimeField(auto_now_add=True)
     attendance_category = models.ForeignKey(EventAttendanceCategory,
                                             on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.generate_user_points()
+
+    def generate_user_points(self):
+        point_history_entry = PlayerPointsHistory(user=self.user,
+                              amount_points= self.attendance_category.points_amount)
+        point_history_entry.description = "{}: {}".format(self.user, self.attendance_category)
+        point_history_entry.save()
+
+    def __str__(self):
+        return "{}: {} em {}".format(self.user, self.attendance_category.name, self.event)
+
 
 class PlayerPoints(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,

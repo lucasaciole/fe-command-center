@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+  <h2>Histórico de pontos para {{ user.username }}</h2>
+  <h6>Pontos atuais: {{ points }}</h6>
+  <hr/>
+     <table class="table table-hover table-dark">
+        <thead>
+          <th scope="col">
+            Membro
+          </th>
+          <th scope="col">
+            Data
+          </th>
+          <th scope="col">
+            Descrição
+          </th>
+          <th scope="col">
+            Pontos
+          </th>
+        </thead>
+        <tbody>
+          {% for entry in history %}
+            <tr scope="row" class="entry">
+              <td>{{ entry.user.username }}</td>
+              <td>{{ entry.creation_date }}</td>
+              <td>{{ entry.description }}</td>
+              <td>{{ entry.amount_points }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <a class="btn btn-primary" href="{% url 'dashboard' %}" type="submit">Voltar</a>
+    <button class="btn btn-primary" id="submitAttendances" type="submit">Confirmar</button>
+
+    <script src="{% static 'js/attendance.js' %}"></script>
+{% endblock %}

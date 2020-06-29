@@ -34,6 +34,26 @@
           {% endfor %}
         </thead>
         <tbody>
+          {% if confirmed %}
+            {% for confirmation in confirmed %}
+              {% if forloop.first %}
+                <tr scope="row">
+                  <td colspan="{{colspan}}" class='text-center'> Presenças já confirmadas
+                </tr>
+              {% endif %}
+            <tr scope="row" class="member-data">
+              <td colspan='2' data-user-id="{{confirmation.user.id}}">{{ confirmation.user.username }}</td>
+                {% for category in attendance_categories %}
+                  <td>
+                    <input type="radio" name="attendance_user_{{confirmation.id}}" class="attendance-category"
+              value="{{ category.id }}" id="attendance_user_{{confirmation.user.id}}"
+              {% if confirmation.attendance_category.id == category.id %} checked {% else %} disabled {% endif %}
+              />
+                  </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+          {% else %}
           {% for member in going %}
             {% if forloop.first %}
               <tr scope="row">
@@ -98,6 +118,7 @@
                 {% endfor %}
             </tr>
           {% endfor %}
+          {% endif %}
         </tbody>
       </table>
     <a class="btn btn-primary" href="{% url 'event_detail' event.pk %}" type="submit">Voltar</a>

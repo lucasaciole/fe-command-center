@@ -54,12 +54,15 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarAccount">
                           <a class="dropdown-item" href="{% url 'shop_item_list' %}">Ver Loja</a>
-                          <a class="dropdown-item" href="#">Histórico de Pontos</a>
+                          <a class="dropdown-item" href="{% url 'player_points_history_list' %}">Histórico de Pontos</a>
                           <a class="dropdown-item" href="#">Histórico de Resgates</a>
                         </div>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="{%url 'event_list' %}">Eventos</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="https://fireemblemguild.forumeiros.com/" target="about:blank">Fórum</a>
                       </li>
                       {% if user.is_staff %}
                         <li class="nav-item">
