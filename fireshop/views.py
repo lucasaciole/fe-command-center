@@ -9,7 +9,6 @@ from .models import EventAttendance, AttendanceTypes, EventAttendanceConfirmatio
 from .forms import EventForm
 from django.contrib import messages
 import logging
-import pdb
 import json
 
 logger = logging.getLogger(__name__)
@@ -43,7 +42,6 @@ class EventPlannerView(LoginRequiredMixin, TemplateView):
 class EventAttendanceConfirmationView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        pdb.set_trace()
         attendances = json.loads(request.POST['attendances'])
         event_id = kwargs['event']
         event = Event.objects.get(pk=event_id)
