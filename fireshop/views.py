@@ -42,25 +42,23 @@ class EventPlannerView(LoginRequiredMixin, TemplateView):
 
 class EventAttendanceConfirmationView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-        attendances = json.loads(request.GET['attendances'])
+    def post(self, request, *args, **kwargs):
+        pdb.set_trace()
+        attendances = json.loads(request.POST['attendances'])
         event_id = kwargs['event']
+        event = Event.objects.get(pk=event_id)
         for member, category in attendances.items():
             user = User.objects.get(pk=member)
-            event = Event.objects.get(pk=event_id)
             try:
                 eac = EventAttendanceConfirmation.objects.get(user=user, event=event)
-                logger.error("ALREADY EXISTS")
-                #return HttpResponse("Presença de {} em {} já foi registrada.".format(user, event), status=200)
             except EventAttendanceConfirmation.DoesNotExist:
                 eac = EventAttendanceConfirmation(user=user, event=event)
                 eac.attendance_category = event.attendance_categories.get(id=category)
                 eac.save()
-                logger.error("OK")
-                #return HttpResponse("Presença de {} em {} confirmada com sucesso.".format(user, event), status=200)
             except Exception as error:
                 raise error
-        return HttpResponse("OK", status=200)
+        messages.info(request, "Presenças confirmadas com sucesso!")
+        return redirect('event_attendance_list', pk=event.id)
 
 class PlayerPointsHistoryListView(LoginRequiredMixin, ListView):
     model = PlayerPointsHistory
@@ -75,9 +73,10 @@ class PlayerPointsHistoryListView(LoginRequiredMixin, ListView):
             context['points'] = 0
 
         if not self.request.user.is_staff:
-            context['history'] = PlayerPointsHistory.objects.filter(user=self.request.user)
+            context['history'] = PlayerPointsHistory.objects.filter(user=self.request.user).order_by('-creation_date')
         else:
-            context['history'] = PlayerPointsHistory.objects.all()
+            context['history'] = PlayerPointsHistory.objects.all().order_by('-creation_date')
+
         return context
 
 

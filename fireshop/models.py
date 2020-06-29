@@ -84,9 +84,14 @@ class PlayerPointsHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     description = models.CharField(max_length=100)
     amount_points = models.IntegerField()
+    total_points_on_date = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
+        if hasattr(self.user, 'shop_points'):
+            self.total_points_on_date = self.user.shop_points.amount + self.amount_points
+        else:
+            self.total_points_on_date = self.amount_points
         super().save(*args, **kwargs)
         self.update_user_points()
 

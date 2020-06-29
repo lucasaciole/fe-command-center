@@ -122,7 +122,11 @@
         </tbody>
       </table>
     <a class="btn btn-primary" href="{% url 'event_detail' event.pk %}" type="submit">Voltar</a>
-    <button class="btn btn-primary" id="submitAttendances" type="submit">Confirmar</button>
+    <form method="post" action="{% url 'event_attendance_confirm' event.pk %}" id="attendancesForm" data-classes-url="{% url 'ajax_load_classes' %}" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="attendances" id="attendanceList" value=""/>
+      <button class="btn btn-primary" id="submitAttendances" type="submit">Confirmar</button>
+    </form>
 
     <script src="{% static 'js/attendance.js' %}"></script>
 {% endblock %}

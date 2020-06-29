@@ -24,6 +24,9 @@
           <th scope="col">
             Pontos
           </th>
+          <th scope="col">
+            Acumulado
+          </th>
         </thead>
         <tbody>
           {% for entry in history %}
@@ -32,6 +35,7 @@
               <td>{{ entry.creation_date }}</td>
               <td>{{ entry.description }}</td>
               <td>{{ entry.amount_points }}</td>
+              <td>{{ entry.total_points_on_date }}</td>
             </tr>
           {% endfor %}
         </tbody>
