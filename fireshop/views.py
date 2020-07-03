@@ -1,13 +1,14 @@
-from django.http import HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import EventAttendance, AttendanceTypes, EventAttendanceConfirmation, PlayerPointsHistory
+from .models import Event, ShopItem, ShopItemRedeem, EventAttendanceCategory, PlayerPoints
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, View, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Event, ShopItem, ShopItemRedeem, EventAttendanceCategory, PlayerPoints
-from .models import EventAttendance, AttendanceTypes, EventAttendanceConfirmation, PlayerPointsHistory
-from .forms import EventForm
+from django.http import HttpResponse
 from django.contrib import messages
+from .forms import EventForm
+from datetime import datetime
 import logging
 import json
 
@@ -19,15 +20,28 @@ class EventListView(LoginRequiredMixin, ListView):
     context_object_name = "events"
     ordering = ['date']
 
+    def get_queryset(self, **kwargs):
+        if not self.request.GET.get('show_all'):
+            return Event.objects.filter(date__gte=datetime.now())
+        else:
+            return Event.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_going'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='going')
+        context['user_maybe'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='maybe')
+        context['user_not_going'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='notgoing')
+        return context
+
 class EventDetailView(LoginRequiredMixin, DetailView):
     model = Event
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         event = context['event']
-        context['going'] = event.attendances.filter(attendance_type='going').only('user').order_by('creation_date')
-        context['maybe'] = event.attendances.filter(attendance_type='maybe').only('user').order_by('creation_date')
-        context['notgoing'] = event.attendances.filter(attendance_type='notgoing').only('user').order_by('creation_date')
+        context['going'] = event.attendances.filter(attendance_type='going').only('user').order_by('-creation_date')
+        context['maybe'] = event.attendances.filter(attendance_type='maybe').only('user').order_by('-creation_date')
+        context['notgoing'] = event.attendances.filter(attendance_type='notgoing').only('user').order_by('-creation_date')
         context['unanswered'] = User.objects.exclude(user_attendances__event_id=event.id)
         return context
 

@@ -15,6 +15,16 @@ class Event(models.Model):
         return "{} {}".format(self.name,
                               self.date.date().strftime("%d/%m/%Y"))
 
+    def get_going_attendances(self):
+        return self.attendances.filter(attendance_type='going')
+
+    def get_maybe_attendances(self):
+        return self.attendances.filter(attendance_type='maybe')
+
+    def get_not_going_attendances(self):
+        return self.attendances.filter(attendance_type='notgoing')
+
+
 class AttendanceTypes(models.TextChoices):
     GOING =  'going', _("Vou"),
     MAYBE =  'maybe', _("Talvez"),

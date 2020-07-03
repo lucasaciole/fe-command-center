@@ -23,12 +23,14 @@
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">Data: {{ event.date }}</li>
-	        	</li>
               </ul>
               <div class="card-body">
-                <a href="{% url 'event_attendance_add' event.pk 'going' %}" class="card-link">Vou</a>
-                <a href="{% url 'event_attendance_add' event.pk 'maybe'  %}" class="card-link">Talvez</a>
-                <a href="{% url 'event_attendance_add' event.pk 'notgoing'  %}" class="card-link">Não Vou</a>
+                <a {% if event in user_going %} class='font-weight-bold' {% endif %} href="{% url 'event_attendance_add' event.pk 'going' %}" class="card-link">Vou</a>
+                <span class="badge badge-primary badge-pill">{{ event.get_going_attendances|length }}</span>
+                <a {% if event in user_maybe %} class='font-weight-bold' {% endif %} href="{% url 'event_attendance_add' event.pk 'maybe'  %}" class="card-link">Talvez</a>
+                <span class="badge badge-primary badge-pill">{{ event.get_maybe_attendances|length }}</span>
+                <a {% if event in user_not_going %} class='font-weight-bold' {% endif %} href="{% url 'event_attendance_add' event.pk 'notgoing'  %}" class="card-link">Não Vou</a>
+                <span class="badge badge-primary badge-pill">{{ event.get_not_going_attendances|length }}</span>
                 {% if event.has_party_planning and user.is_staff %}
                 	<a href="{% url 'event_list' %}" class="card-link">Planejar PTs</a>
                 {% endif %}
