@@ -30,12 +30,12 @@
                   <img src="{% static 'icons/arrows-move.svg' %}">
                 </span>
                 {{user.user.username}}
-                <a class="float-right" data-toggle="collapse" href="#{{ user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.username }}CharList">
+                <a class="float-right" data-toggle="collapse" href="#{{ user.user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.user.username }}CharList">
                  <span class="bi bi-caret-down-fill">
                    <img src="{% static 'icons/caret-down-fill.svg' %}">
                  </span>
                 </a>
-                <div class="collapse" id="{{ user.username }}CharList">
+                <div class="collapse" id="{{ user.user.username }}CharList">
                   <ul class="list-group">
                     {% for character in user.user.character_set.all %}
                     <li class="list-group-item character">

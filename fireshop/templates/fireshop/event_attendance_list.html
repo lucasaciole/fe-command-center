@@ -45,7 +45,7 @@
               <td colspan='2' data-user-id="{{confirmation.user.id}}">{{ confirmation.user.username }}</td>
                 {% for category in attendance_categories %}
                   <td>
-                    <input type="radio" name="attendance_user_{{confirmation.id}}" class="attendance-category"
+                    <input type="radio" name="attendance_user_{{confirmation.user.id}}" class="attendance-category"
               value="{{ category.id }}" id="attendance_user_{{confirmation.user.id}}"
               {% if confirmation.attendance_category.id == category.id %} checked {% else %} disabled {% endif %}
               />
@@ -64,7 +64,7 @@
             <td colspan='2' data-user-id="{{member.user.id}}">{{ member.user.username }}</td>
               {% for category in attendance_categories %}
                 <td>
-                  <input type="radio" name="attendance_user_{{member.id}}" class="attendance-category"
+                  <input type="radio" name="attendance_user_{{member.user.id}}" class="attendance-category"
             value="{{ category.id }}" id="attendance_user_{{member.user.id}}"/>
                 </td>
               {% endfor %}
@@ -80,7 +80,7 @@
               <td colspan='2' data-user-id="{{member.user.id}}">{{ member.user.username }}</td>
                 {% for category in attendance_categories %}
                   <td>
-                    <input type="radio" name="attendance_user_{{member.id}}" class="attendance-category"
+                    <input type="radio" name="attendance_user_{{member.user.id}}" class="attendance-category"
               value="{{ category.id }}" id="attendance_user_{{member.user.id}}"/>
                   </td>
                 {% endfor %}
@@ -96,7 +96,7 @@
               <td colspan='2' data-user-id="{{member.user.id}}">{{ member.user.username }}</td>
                 {% for category in attendance_categories %}
                   <td class="attendance-categories">
-                    <input type="radio" name="attendance_user_{{member.id}}" class="attendance-category"
+                    <input type="radio" name="attendance_user_{{member.user.id}}" class="attendance-category"
               value="{{ category.id }}" id="attendance_user_{{member.user.id}}"/>
                   </td>
                 {% endfor %}
@@ -113,7 +113,7 @@
                 {% for category in attendance_categories %}
                   <td>
                     <input type="radio" name="attendance_user_{{member.id}}" class="attendance-category"
-              value="{{ category.id }}" id="attendance_user_{{member.user.id}}"/>
+              value="{{ category.id }}" id="attendance_user_{{member.id}}"/>
                   </td>
                 {% endfor %}
             </tr>

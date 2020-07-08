@@ -4,7 +4,7 @@
 {% block title %}Fire Command Center{% endblock %}
 
 {% block content %}
-  <h2>Eventos da Fire</h2>
+  <h2>Eventos depois de {{ now }}</h2>
   <p>
     {% if user.is_staff %}
       <a href="{% url 'event_add' %}">Novo Evento</a>
@@ -22,7 +22,7 @@
                 {% endif %}
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">Data: {{ event.date }}</li>
+                <li class="list-group-item">{{ event.date|date:'l, j \d\e F \d\e o' }} {{event.date|time}}</li>
               </ul>
               <div class="card-body">
                 <a {% if event in user_going %} class='font-weight-bold' {% endif %} href="{% url 'event_attendance_add' event.pk 'going' %}" class="card-link">Vou</a>
