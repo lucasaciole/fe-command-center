@@ -1,7 +1,7 @@
 from .models import EventAttendance, AttendanceTypes, EventAttendanceConfirmation, PlayerPointsHistory
 from .models import Event, ShopItem, ShopItemRedeem, EventAttendanceCategory, PlayerPoints
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, View, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -13,6 +13,10 @@ import logging
 import json
 
 logger = logging.getLogger(__name__)
+
+class StaffMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_staff
 
 # Create your views here.
 class EventListView(LoginRequiredMixin, ListView):
@@ -28,6 +32,7 @@ class EventListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['now'] = datetime.now()
         context['user_going'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='going')
         context['user_maybe'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='maybe')
         context['user_not_going'] = Event.objects.filter(attendances__user_id=self.request.user.id, attendances__attendance_type='notgoing')
@@ -92,7 +97,7 @@ class PlayerPointsHistoryListView(LoginRequiredMixin, ListView):
         return context
 
 
-class EventAttendanceListView(LoginRequiredMixin, DetailView):
+class EventAttendanceListView(StaffMixin, DetailView):
     model = Event
     template_name = 'fireshop/event_attendance_list.html'
 
@@ -109,7 +114,7 @@ class EventAttendanceListView(LoginRequiredMixin, DetailView):
         context['confirmed'] = event.attendance_confirmations.all()
         return context
 
-class EventAttendanceCategoryCreateView(LoginRequiredMixin, CreateView):
+class EventAttendanceCategoryCreateView(StaffMixin, CreateView):
     template_name = 'fireshop/event_attendance_category_form.html'
     model = EventAttendanceCategory
     fields = '__all__'
@@ -126,7 +131,28 @@ class EventAttendanceCategoryCreateView(LoginRequiredMixin, CreateView):
         context['event'] = self.event
         return context
 
-class EventCreateView(LoginRequiredMixin, CreateView):
+class EventAttendanceCategoryUpdateView(StaffMixin, UpdateView):
+    template_name = 'fireshop/event_attendance_category_form.html'
+    model = EventAttendanceCategory
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('event_detail', kwargs={'pk' : self.object.event.id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['event'] = self.object.event
+        return context
+
+class EventAttendanceCategoryListView(StaffMixin, ListView):
+    model = EventAttendanceCategory
+    template_name = 'fireshop/event_attendance_category_list.html'
+    context_object_name = "attendance_categories"
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class EventCreateView(StaffMixin, CreateView):
     model = Event
     form_class = EventForm
 

@@ -7,8 +7,9 @@
   <h2>Eventos depois de {{ now }}</h2>
   <p>
     {% if user.is_staff %}
-      <a href="{% url 'event_add' %}">Novo Evento</a>
+      <a class="btn btn-primary" href="{% url 'event_add' %}">Novo Evento</a>
     {% endif %}
+      <a class="btn btn-primary" href="{% url 'event_list' %}?show_all=true">Mostrar Todos</a>
   </p>
       <div class="row">
         {% for event in events %}
