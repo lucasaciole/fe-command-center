@@ -29,7 +29,7 @@
                 <span class="handle">
                   <img src="{% static 'icons/arrows-move.svg' %}">
                 </span>
-                {{user.user.username}}
+                <span data-name="{{user.user.username}}" class="user-name">{{user.user.username}}</span>
                 <a class="float-right" data-toggle="collapse" href="#{{ user.user.username }}CharList" role="button" aria-expanded="false" aria-controls="{{ user.user.username }}CharList">
                  <span class="bi bi-caret-down-fill">
                    <img src="{% static 'icons/caret-down-fill.svg' %}">
@@ -39,7 +39,10 @@
                   <ul class="list-group">
                     {% for character in user.user.character_set.all %}
                     <li class="list-group-item character">
-                      {{character}}
+                      <span class="char-class">
+                        {{character.first_class}}|{{character.second_class}}|{{character.third_class}}
+                      </span>
+                      <a href="#" class="select-character">A</a>
                     </li>
                     {% endfor %}
                   </ul>

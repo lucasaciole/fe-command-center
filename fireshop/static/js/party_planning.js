@@ -40,6 +40,13 @@ $( function() {
     Sortable.create(notGoingList, opts);
   }
 
+  $(".select-character").click(function(e){
+    var el = $(e.target);
+    var char = el.parent().children(".char-class");
+    var target = el.parent().parent().parent().parent().children(".user-name")
+    target.text(target.data("name") + ":" + char.text())
+  });
+
   $("#addParty").click(function(e){
     var row = $("#partyPlanner");
     var col = $("<div class='col-sm-3'></div>")

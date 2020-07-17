@@ -1,4 +1,5 @@
-#partyPlanner .collapse, .collapsing {
+.collapse, .collapsing {
+	margin-top: 12px;
 	margin-bottom: -21px;
     margin-left: -21px;
     margin-right: -21px;

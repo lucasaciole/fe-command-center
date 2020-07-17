@@ -68,7 +68,7 @@ class EventAttendanceConfirmation(models.Model):
     def generate_user_points(self):
         point_history_entry = PlayerPointsHistory(user=self.user,
                               amount_points= self.attendance_category.points_amount)
-        point_history_entry.description = "{}: {}".format(self.user, self.attendance_category)
+        point_history_entry.description = "{}".format(self.attendance_category)
         point_history_entry.save()
 
     def __str__(self):
